@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+	<!-- 在开发阶段，实现热部署，可以加入如下常量 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+
+	<package name="employee" extends="struts-default">
+	
+		<!-- 修改PrepareInterceptorParamsStack拦截器的 alwaysInvokePrepare属性值为false -->
+		<interceptors>
+			<interceptor-stack name="myStak">
+				<interceptor-ref name="paramsPrepareParamsStack">
+					<param name="prepare.alwaysInvokePrepare">false</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+
+		<!-- 配置使用paramsPrepareParamsStack作为默认的拦截器栈 -->
+		<default-interceptor-ref name="myStak"></default-interceptor-ref>
+
+
+		<action name="emp-*" class="employeeAction" method="{1}">
+
+			<result name="list">/index.jsp</result>
+
+			<result name="input">/EmployeeAdd.jsp</result>
+
+			<result name="ajax-success" type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+
+			<result name="success" type="redirect">/emp-list</result>
+
+		</action>
+	</package>
+
+</struts>

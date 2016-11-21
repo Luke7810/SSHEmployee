@@ -19,6 +19,7 @@ public class EmployeeDao {
 	}
 	
 	public void update(Employee e){
+		hibernateTemplate.clear();
 		hibernateTemplate.update(e);
 	}
 	
